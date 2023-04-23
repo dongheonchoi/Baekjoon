@@ -20,12 +20,11 @@ public class baekjoondice23288 {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 
-		int n = Integer.parseInt(st.nextToken());
-		int m = Integer.parseInt(st.nextToken());
-		int k = Integer.parseInt(st.nextToken());
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		k = Integer.parseInt(st.nextToken());
 
 		map = new int[n][m];
-		checkMap = new boolean[n][m];
 
 		for (int i = 0; i < n; i++) {
 			st = new StringTokenizer(br.readLine(), " ");
@@ -33,31 +32,38 @@ public class baekjoondice23288 {
 				map[i][j] = Integer.parseInt(st.nextToken());
 			}
 		}
-
 		r = 0;
 		c = 0;
 		moveDir = 1;
-
+		
+		int score = 0;
 		for (int i = 0; i < k; i++) {
 			move();
+			cntScore = 0;
+			floorNum = map[r][c];
+			checkMap = new boolean[n][m];
+			score(r, c);
+			//System.out.println(r + " " + c);
+			//System.out.println("floornum =>" + floorNum);
+			score = score + cntScore * floorNum;
+			//System.out.println(score);
 		}
 
-		cntScore = 0;
-		floorNum = map[r][c];
-		score(r, c);
 
-		System.out.println(cntScore * floorNum);
+		System.out.println(score);
 
 	}
 
 	static void move() {
 		int nextR = r + dirR[moveDir];
 		int nextC = c + dirC[moveDir];
+
 		if (nextR < 0 || nextC < 0 || nextR >= n || nextC >= m) {
 			moveDir = (moveDir + 2) % 4;
 			nextR = r + dirR[moveDir];
 			nextC = c + dirC[moveDir];
 		}
+
 		r = nextR;
 		c = nextC;
 
@@ -95,7 +101,7 @@ public class baekjoondice23288 {
 		int A = dice[1][3];
 		int B = map[r][c];
 		if (A > B) {
-			moveDir = (moveDir + 1) % 1;
+			moveDir = (moveDir + 1) % 4;
 		}else if (A < B) {
 			moveDir = (moveDir-1);
 			if (moveDir < 0) {
